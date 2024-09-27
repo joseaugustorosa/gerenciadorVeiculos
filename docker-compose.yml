@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  eureka-veiculo:
+    image: eurekaveiculos
+
+    build:
+      context: ./eurekaveiculos
+    ports:
+      - "8761:8761"
+    networks:
+      - eureka-net
+
+  veiculo-service:
+    image: veiculoservice
+    build:
+      context: ./veiculo-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-veiculo
+    networks:
+      - eureka-net
+
+networks:
+  eureka-net:
